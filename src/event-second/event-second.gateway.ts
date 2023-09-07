@@ -2,15 +2,13 @@ import {
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
-  WsResponse,
 } from '@nestjs/websockets';
-import { Observable, from, interval } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Server } from 'ws';
 import * as moment from 'moment';
+import { interval, map } from 'rxjs';
+import { Server } from 'ws';
 
-@WebSocketGateway(8081)
-export class EventGateway {
+@WebSocketGateway(8082)
+export class EventSecondGateway {
   @WebSocketServer()
   server: Server;
 
@@ -18,10 +16,9 @@ export class EventGateway {
   onEvent(client: any, data: any) {
     return interval(1000).pipe(
       map(() => {
-        const time = moment().format();
-        return { event: 'events', data: time };
+        const time = moment().format('LLLL');
+        return { event: 'second', data: time };
       }),
     );
   }
 }
-// : Observable<WsResponse<number>>
